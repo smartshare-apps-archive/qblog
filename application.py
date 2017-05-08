@@ -14,12 +14,21 @@ from modules.blueprints import blog
 
 
 
+#authentication and session management modules
+from modules.auth import login
+from modules.auth import session_manager
+
+
+
 application = Flask(__name__)
 
 #generate a random secret key
 application.secret_key = os.urandom(24)
 
 application.config['ctl'] = BlogCMS()		#this instance of ControlPanel can be accessed through the application context so blueprints can use it
+application.config['auth_ctl'] = Auth()		#
+
+assert application.config['SessionManager'].r is not None, "Can't connect to redis server."
 
 
 application.register_blueprint(cms.cms_views)
