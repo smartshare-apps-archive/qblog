@@ -1,0 +1,29 @@
+body{
+	background-color:rgba(14,36,57,1.0);
+}
+
+#post_editor_textarea{
+	
+}
+
+.post-editor-content{
+	
+}
+
+.CodeMirror, .CodeMirror-scroll {
+	min-height: 800px;
+	font-family:"Raleway", arial !important;
+}
+
+.editor-toolbar{
+
+	background-color:white;
+	opacity:1.0;
+	z-index:1040 !important;
+}
+
+
+.post-editor-toolbar{
+	height:50px;
+	background-color:rgba(14,36,57,1.0);
+}

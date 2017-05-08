@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block nav_bar %}
+
+	<nav class="navbar navbar-default navbar-static-top">
+	  <div class="container">
+
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="/">
+	        <img alt="Brand" src="http://smartshare.io/static/images/ss_logo.png" style="max-width:30px; margin-top: -7px;">
+	      </a>
+
+	    </div>
+
+	    <div class="collapse navbar-collapse">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="/view_posts"> Manage posts <span class="sr-only">(current)</span></a></li>
+	        <li><a href="#"> Create an article </a></li>
+	        <li><a href="#"> Users </a></li>
+	       </ul>
+	   </div>
+
+	</nav>
+
+{% endblock nav_bar %}
+
+{% block body_content %}
+
+
+	<link rel="stylesheet" href="{{ url_for("static", filename="css/core.css") }}?ts={{data.ts}}">
+
+
+	{% for script in data.	page_specific_js %}
+		<script type="text/javascript" src="{{script}}?ts={{data.ts}}"></script>
+	{% endfor %}
+		
+
+<div class="container">
+
+	
+	<div class="row post-editor-toolbar">
+		<div class="col-sm-3">
+			<div class="input-group">
+
+			  <span class="input-group-addon" id="title-addon">Post title</span>
+			  <input type="text" class="form-control post-data-input" placeholder="Post title" aria-describedby="title-addon" value="{{data.post_data.post_title}}" data-fieldID="post_title">
+			</div>
+			
+		</div>
+		
+		<div class="col-sm-3">
+			<div class="input-group">
+			  <span class="input-group-addon" id="type-addon">Type</span>
+			  <select class="form-control post-data-input" data-fieldID="post_type">
+			  	<option value="blog"> Blog </option>
+			  	<option value="blurb"> Blurb </option>
+			  </select>
+	
+			</div>
+		</div>
+
+		<div class="col-sm-3">
+			<div class="input-group">
+			  <span class="input-group-addon" id="title-addon">Icon</span>
+			  <input type="text" class="form-control post-data-input" placeholder="Post icon" aria-describedby="icon-addon" value="{{data.post_data.timeline_icon}}" data-fieldID="timeline_icon">
+			</div>
+		</div>
+
+		<div class="col-sm-3">
+			<!--
+			<span class="input-group-btn" id="title-addon">
+				<button type="button" class="btn btn-primary" id="btn_savePost"> Back to list </button>
+			</span>
+			-->
+
+			<button type="button" class="btn btn-primary" id="btn_savePost"> Save changes </button>
+
+		</div>
+	</div>
+	
+	
+	<hr>
+
+	<div class="row post-editor">
+		<div class="col-sm-12 post-editor-content">
+			<textarea id="post_editor_textarea"> </textarea>
+		</div>
+
+	</div>
+	<hr>
+
+	<div class="post-data" data-postID="{{data.post_data.post_id}}">
+		{% for field, value in data.post_data.iteritems() %}
+			<input type="text" class="post-data-value" data-fieldID="{{field}}" value="{{value}}">
+		{% endfor %}
+	</div>
+</div>
+
+
+{% endblock body_content %}

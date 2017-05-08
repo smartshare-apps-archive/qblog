@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.1/css/hover-min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for("static", filename="css/blog.css") }}?ts={{data.ts}}">
+		
+	<script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>	
+	
+	{% block javascript %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"> </script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> </script>
+		<script src="https://use.fontawesome.com/b41d52df2a.js"></script>
+
+	<!-- begin analytics tracking block -->
+	<!-- end analytics tracking block -->
+			
+	{% endblock javascript %}
+	
+	</head>
+	<body>
+
+	{% block nav_bar %}
+	{% endblock nav_bar %}
+
+
+	{% block body_content %}
+
+	{% endblock body_content %}
+	</body>
+</html>

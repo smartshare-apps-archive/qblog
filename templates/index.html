@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block nav_bar %}
+
+	<nav class="navbar navbar-default navbar-static-top">
+	  <div class="container">
+
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">
+	        <img alt="Brand" src="http://smartshare.io/static/images/ss_logo.png" style="max-width:30px; margin-top: -7px;">
+	      </a>
+
+	    </div>
+
+	    <div class="collapse navbar-collapse">
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="active"><a href="/"> Blog <span class="sr-only">(current)</span></a></li>
+	        <li><a href="#"> About </a></li>
+	        <li><a href="/view_posts"> Admin </a></li>
+	       </ul>
+	   </div>
+
+	</nav>
+
+{% endblock nav_bar %}
+
+{% block body_content %}
+
+<div class="container" id="timeline-container">
+	{{ timeline | safe }}
+</div>
+
+
+{% endblock body_content %}
