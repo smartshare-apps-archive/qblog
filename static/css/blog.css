@@ -5,7 +5,6 @@ body{
 #timeline-container{
 	background-color:rgba(14,36,57,1.0);
 	min-height:100vh;
-	padding-left:300px;
 }
 
 .post-row{

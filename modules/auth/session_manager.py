@@ -11,10 +11,9 @@ import redis
 from modules.db import *
 from modules.decorators import *
 
+db_wrapper = database_wrapper()
 
-db = instance_handle()
-
-redis_config = config.getRedisSettings(db.cursor())
+redis_config = db_wrapper.getRedisSettings(db_wrapper.config)
 
 
 REDIS_SERVER = redis_config["host"]

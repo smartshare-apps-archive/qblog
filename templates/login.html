@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block nav_bar %}
+
+	<nav class="navbar navbar-default navbar-static-top">
+	  <div class="container">
+
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="/">
+	        <img alt="Brand" src="http://smartshare.io/static/images/ss_logo.png" style="max-width:30px; margin-top: -7px;">
+	      </a>
+
+	    </div>
+
+	    <div class="collapse navbar-collapse">
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="active"><a href="/"> Blog <span class="sr-only">(current)</span></a></li>
+	        <li><a href="#"> About </a></li>
+	        <li><a href="/login"> Log in </a></li>
+	       </ul>
+	   </div>
+
+	</nav>
+
+{% endblock nav_bar %}
+
+{% block body_content %}	
+<script type="text/javascript">
+
+	function login(login_info){
+		var login_info = JSON.stringify(login_info)
+
+		$.ajax({
+		  method: "POST",
+		  url: "/auth/login",
+		  dataType: "json",
+		  traditional:true,
+		  data: { login_info: login_info }
+		})
+		  .done(function(user_data) {
+		  		console.log(user_data);
+				return authenticate(user_data);
+		  });
+
+	}
+
+	
+</script>
+
+<script src="{{ url_for("static", filename="js/Login.js") }}?ts={{data.ts}}"></script>
+
+<div class="row">
+	<div class="col-xs-3"></div>
+
+	<div class="col-xs-6 text-center">
+		<div class="form-group" id="login_form" action="">
+
+		<input type="text" class="form-control" id="username" placeholder="Username"> <br>
+		<input type="password" class="form-control" id="password" placeholder="Password"> <br>
+		<button type="button" class="btn btn-default" id="btn_login"> Login </button>
+
+		</div>
+	</div>
+
+	<div class="col-xs-3"></div>
+
+</div>
+
+
+{% endblock body_content %}

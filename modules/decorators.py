@@ -1,5 +1,6 @@
 from functools import wraps
 from modules.db import *
+from flask import Flask, url_for, redirect
 
 
 
@@ -7,10 +8,8 @@ from modules.db import *
 def db_required(f):
 	@wraps(f)
 	def wrapper(*args, **kwargs):
-		instance_db = instance_handle()
-		db = db_handle(instance_db)
-		db_cursor = db.cursor()
-		return f(db)
+		db_wrapper = database_wrapper()
+		return f(db_wrapper)
 	return wrapper
 
 
@@ -72,7 +71,7 @@ def with_user_data(app, session):
 
 
 #add this decorator to any route that needs admin level privleges
-def admin_required(app, session, redirect):
+def admin_required(app, session, redirect_url):
 	def decorator(f):
 		@wraps(f)
 		def wrapper(*args, **kwargs):
@@ -83,19 +82,18 @@ def admin_required(app, session, redirect):
 			data["key"] = session[s_id]
 			
 			auth_token = session_manager.get_session_key(app, session, data)
-			print "auth token: ", auth_token
 
-			if(auth_token and auth_token in config.admin_names()):
+			if auth_token and auth_token == "admin":
+				print "Auth token: ", auth_token
 				return f(*args, **kwargs)
 			else:
-				return redirect(*args, **kwargs)
-
+				return redirect(url_for(redirect_url))
 		return wrapper
 	return decorator
 
 
 #this is for preventing redundant login attempts, they shouldn't be able to see this page if they are logged in
-def redirect_logged_in(app, session, redirect):
+def redirect_logged_in(app, session, redirect_url):
 	def decorator(f):
 		@wraps(f)
 		def wrapper(*args, **kwargs):
@@ -107,7 +105,7 @@ def redirect_logged_in(app, session, redirect):
 			authenticated_token = session_manager.get_session_key(app, session, data)
 
 			if(authenticated_token and authenticated_token != "guest"):
-				return redirect(*args, **kwargs)
+				return redirect(url_for(redirect_url))
 			else:
 				return f(*args, **kwargs)
 			

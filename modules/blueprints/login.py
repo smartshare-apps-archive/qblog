@@ -1,6 +1,6 @@
 import json, time, sys
 
-from flask import Blueprint, render_template, abort, current_app, session, request, Response
+from flask import Blueprint, render_template, abort, current_app, session, request, Response, url_for, redirect
 from uuid import uuid4
 
 from modules.db import *
@@ -24,24 +24,26 @@ def setup_session():
 
 @login_routes.route('/login')
 @login_routes.route('/login/')
-@redirect_logged_in(current_app, session, view_posts)
+@redirect_logged_in(current_app, session, 'cms_views.view_posts')
 @with_user_data(current_app, session)
 def login_redirect():
 	ctl = current_app.config["ctl"]
 
+	data = {}
+	data["ts"] = int(time.time())
 
-	return render_template("auth/login.html", data=data)
+	return render_template("login.html", data=data)
 
 
 
 
 @login_routes.route('/auth/login', methods=['POST'])
 @db_required
-def auth_login(db):
+def auth_login(db_wrapper):
 	login_info = request.form['login_info']
 	login_info = json.loads(login_info)
 	
-	user_data = auth_user(login_info, db)
+	user_data = db_wrapper.auth_user(login_info)
 	
 	if user_data:
 		sm = current_app.config['SessionManager']
@@ -52,19 +54,18 @@ def auth_login(db):
 
 
 
-@login_routes.route('/auth/logout')
+@login_routes.route('/logout')
 @db_required
-def logout(db):
+def logout(db_wrapper):
 	sm = current_app.config['SessionManager']
 	destroy_session_data(sm, current_app, session);
 
-	db.close()
-
-	return Home()
+	return redirect(url_for('blog_views.index'))
 	
 
 
 def destroy_session_data(session_manager, app, session):
+	sessionPrefixList = ["auth:", ]
 	s_id = current_app.config['session_cookie_id']
 
 	data = {}
@@ -84,10 +85,6 @@ def destroy_session_data(session_manager, app, session):
 
 		session_manager.update_session_key(app, session, data)
 
-	if result:
-		return result
-	else:
-		return None
 
 
 

@@ -17,6 +17,18 @@
 	        <li class="active"><a href="/view_posts"> Manage posts <span class="sr-only">(current)</span></a></li>
 	        <li><a href="#"> Create an article </a></li>
 	        <li><a href="#"> Users </a></li>
+	      </ul>
+
+	       <ul class="nav navbar-nav navbar-right">
+	        <li class="active"><a href="/"> Blog <span class="sr-only">(current)</span></a></li>
+	        <li><a href="#"> About </a></li>
+	       	
+	       	{% if data.user_data %}
+	        	<li><a href="/logout"> Log out </a></li>
+	        {% else %}
+	        	<li><a href="/login"> Log in </a></li>
+	        {% endif %}
+	        
 	       </ul>
 	   </div>
 

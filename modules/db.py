@@ -69,3 +69,57 @@ class database_wrapper(object):
 
 		return formattedDatabaseConfig
 
+
+
+	@classmethod
+	def getRedisSettings(cls, config_db):
+
+		formattedDatabaseConfig = {}
+
+		with closing(config_db.cursor()) as cursor:
+			currentQuery = """SELECT FieldList FROM settings WHERE setting_id="RedisConfig";"""
+
+			try:
+				cursor.execute(currentQuery)
+			except Exception as e:
+				print "Error: ", e
+				return None
+
+			databaseConfig = cursor.fetchone()
+
+			if databaseConfig:
+				databaseConfig = [field.split('=') for field in  filter(lambda i: i != '', databaseConfig[0].split('<redis_split>'))]
+				
+
+				for field in databaseConfig:
+					formattedDatabaseConfig[field[0]] = field[1]
+
+		return formattedDatabaseConfig
+
+
+
+
+	def auth_user(self, login_info):
+		
+		userData = None
+		
+		with closing(self.content.cursor()) as cursor:
+			currentQuery = "SELECT user_id, username, access_level  FROM users WHERE username=%s AND password=%s;"
+
+			try:
+				cursor.execute(currentQuery, (login_info["username"], login_info["password"],))
+			except Exception as e:
+				print "Error: ", e
+				return None
+
+			userData = cursor.fetchone()
+			
+		if userData:
+			formattedUserData = {}
+			formattedUserData["user_id"] = userData[0]
+			formattedUserData["username"] = userData[1]
+			formattedUserData["access_level"] = userData[2]
+			print "User data: ", userData
+			return formattedUserData
+
+
