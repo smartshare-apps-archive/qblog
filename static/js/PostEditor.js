@@ -66,10 +66,11 @@ function populatePostData(){
 
 		var fieldID = $(this).attr('data-fieldID');
 		var fieldValue = $(this).val();
-
-		if(fieldID == "post_content"){
+		console.log("Field value:" + fieldValue);
+		if(fieldID == "post_content" && fieldValue != ""){
 			fieldValue = replaceAll(fieldValue, "<br />", '\n');
 		}
+
 
 		postData[fieldID] = fieldValue;
 	});

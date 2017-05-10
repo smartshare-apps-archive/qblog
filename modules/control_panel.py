@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, abort, current_app, session, request, Markup
 
+
 from db import database_wrapper
 
-import markdown
 import query	
-
+import markdown
 
 class BlogCMS(object):
 	def __init__(self):
@@ -20,14 +20,10 @@ class BlogCMS(object):
 			post_content = data.get("post_content", None)
 
 			if post_content:
-				data["post_content"] = posts[post_id]["post_content"].split(r'<br />')
+				post_content = post_content.replace('<br />', '\n')
+				print post_content
+				data["post_content"] = markdown.markdown(post_content, extensions=['markdown.extensions.fenced_code', 'markdown.extensions.nl2br'])
 
-				for idx, line in enumerate(data["post_content"]):
-					data["post_content"][idx] = markdown.markdown(line)
-
-				posts[post_id]["post_content"] = ''.join(data["post_content"])
-				
-				print posts[post_id]["post_content"] 
 			else:
 				posts[post_id]["post_content"] = ""
 		

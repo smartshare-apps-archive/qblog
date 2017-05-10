@@ -1,47 +1,5 @@
 {% extends "base.html" %}
 
-{% block nav_bar %}
-
-
-
-	<nav class="navbar navbar-inverse navbar-static-top bg-inverse" style="background-color:rgba(14,36,57,1.0);">
-	  <div class="container">
-
-	    <div class="navbar-header">
-	      <a class="navbar-brand" href="/">
-	        <img alt="Brand" src="{{ url_for("static", filename="images/ss_logo_white.png") }}" style="max-width:30px; margin-top: -7px;">
-	      </a>
-
-	    </div>
-
-	    <div class="collapse navbar-collapse">
-
-	    {% if data.user_data %}
-
-	    <ul class="nav navbar-nav">
-	        <li class="active"><a href="/view_posts"> Manage posts <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#" data-toggle="modal" data-target="#modal_createPost"> Create an article </a></li>
-	        <li><a href="#"> Settings </a></li>
-	      </ul>
-
-
-	    {% endif %}
-	    
-	      <ul class="nav navbar-nav navbar-right">
-	        <li class="active"><a href="/"> Blog <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#"> About </a></li>
-
-	        {% if data.user_data %}
-	        	<li><a href="/logout"> Log out </a></li>
-	        {% else %}
-	        	<li><a href="/login"> Log in </a></li>
-	        {% endif %}
-	       </ul>
-	   </div>
-
-	</nav>
-
-{% endblock nav_bar %}
 
 {% block body_content %}
 
@@ -50,15 +8,27 @@
 		<div class="row">
 		<div class="col-sm-12 text-left">
 			<h2> {{ data.post_data.post_title | safe }} </h2>
-			<h4> by {{ data.post_data.user_id | safe }}, on {{ data.post_data.timestamp | safe }}</h4>
+			<h4> by {{ data.post_data.post_author | safe }}, on {{ data.post_data.timestamp | safe }}</h4>
 
 			<img src="{{ url_for("static", filename="images/fb_logo.png") }}" class="social-icon"> 
 			<img src="{{ url_for("static", filename="images/twitter_icon.png") }}" class="social-icon"> 
+
+			<br><br>
+			Tags: 
+			{% if data.post_data.post_tags %}
+				{% for tag in data.post_data.post_tags %}
+					<a href="#">{{tag}}</a>{{ "," if not loop.last }}
+				{% endfor %}
+			{% else %}
+				No tags 
+
+			{% endif %}
+
 		</div>
 	</div>
 	<br><br>
 	<div class="row">
-		<div class="col-sm-12 text-left">
+		<div class="col-sm-12 text-left blog-post">
 			{{ data.post_data.post_content | safe }}
 		</div>
 	</div>

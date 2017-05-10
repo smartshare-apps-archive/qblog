@@ -1,47 +1,5 @@
 {% extends "base.html" %}
 
-{% block nav_bar %}
-
-
-
-	<nav class="navbar navbar-inverse navbar-static-top bg-inverse" style="background-color:rgba(14,36,57,1.0);">
-	  <div class="container">
-
-	    <div class="navbar-header">
-	      <a class="navbar-brand" href="/">
-	        <img alt="Brand" src="{{ url_for("static", filename="images/ss_logo_white.png") }}" style="max-width:30px; margin-top: -7px;">
-	      </a>
-
-	    </div>
-
-	    <div class="collapse navbar-collapse">
-
-	    {% if data.user_data %}
-
-	    <ul class="nav navbar-nav">
-	        <li class="active"><a href="/view_posts"> Manage posts <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#" data-toggle="modal" data-target="#modal_createPost"> Create an article </a></li>
-	        <li><a href="#"> Settings </a></li>
-	      </ul>
-
-
-	    {% endif %}
-	    
-	      <ul class="nav navbar-nav navbar-right">
-	        <li class="active"><a href="/"> Blog <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#"> About </a></li>
-
-	        {% if data.user_data %}
-	        	<li><a href="/logout"> Log out </a></li>
-	        {% else %}
-	        	<li><a href="/login"> Log in </a></li>
-	        {% endif %}
-	       </ul>
-	   </div>
-
-	</nav>
-
-{% endblock nav_bar %}
 
 {% block body_content %}
 

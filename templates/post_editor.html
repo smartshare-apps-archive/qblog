@@ -1,40 +1,5 @@
 {% extends "base.html" %}
 
-{% block nav_bar %}
-
-	<nav class="navbar navbar-inverse navbar-static-top bg-inverse" style="background-color:rgba(14,36,57,1.0);">
-	  <div class="container">
-
-	    <div class="navbar-header">
-	      <a class="navbar-brand" href="/">
-	        <img alt="Brand" src="{{ url_for("static", filename="images/ss_logo_white.png") }}" style="max-width:30px; margin-top: -7px;">
-	      </a>
-
-	    </div>
-
-	    <div class="collapse navbar-collapse">
-	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="/view_posts"> Manage posts <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#" data-toggle="modal" data-target="#modal_createPost"> Create an article </a></li>
-	        <li><a href="#"> Settings </a></li>
-	      </ul>
-
-	       <ul class="nav navbar-nav navbar-right">
-	        <li class="active"><a href="/"> Blog <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#"> About </a></li>
-	       	
-	       	{% if data.user_data %}
-	        	<li><a href="/logout"> Log out </a></li>
-	        {% else %}
-	        	<li><a href="/login"> Log in </a></li>
-	        {% endif %}
-	        
-	       </ul>
-	   </div>
-
-	</nav>
-
-{% endblock nav_bar %}
 
 {% block body_content %}
 
@@ -57,6 +22,11 @@
 			  <span class="input-group-addon" id="title-addon">Post title</span>
 			  <input type="text" class="form-control post-data-input" placeholder="Post title" aria-describedby="title-addon" value="{{data.post_data.post_title}}" data-fieldID="post_title">
 			</div>
+
+			<div class="input-group">
+			  <span class="input-group-addon" id="title-addon">Author</span>
+			  <input type="text" class="form-control post-data-input" placeholder="Author" aria-describedby="title-addon" value="{{data.post_data.post_author}}" data-fieldID="post_author">
+			</div>
 			
 		</div>
 		
@@ -67,7 +37,11 @@
 			  	<option value="blog"> Blog </option>
 			  	<option value="blurb"> Blurb </option>
 			  </select>
-	
+			</div>
+
+			<div class="input-group">
+			  <span class="input-group-addon" id="tags-addon">Tags</span>
+			  <input type="text" class="form-control post-data-input" placeholder="Author" aria-describedby="tags-addon" value="{{data.post_data.post_tags}}" data-fieldID="post_tags">
 			</div>
 		</div>
 
@@ -90,8 +64,8 @@
 			<button type="button" class="btn btn-danger" id="btn_deletePost"> Delete this post </button>
 
 		</div>
+
 	</div>
-	
 	
 	<hr>
 

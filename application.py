@@ -18,8 +18,8 @@ from modules.blueprints import login
 from modules.auth import session_manager
 
 
-
 application = Flask(__name__)
+
 
 #generate a random secret key
 application.secret_key = os.urandom(24)

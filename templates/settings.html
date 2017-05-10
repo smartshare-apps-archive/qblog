@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+<link rel="stylesheet" href="{{ url_for("static", filename="css/core.css") }}?ts={{data.ts}}">
+
+{% for script in data.	page_specific_js %}
+	<script type="text/javascript" src="{{script}}?ts={{data.ts}}"></script>
+{% endfor %}
+
+
+<div class="container" id="settings-container">
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-danger" id="panel_configWarning">
+					<div class="panel-heading"> Warning! </div>
+					<div class="panel-body text-center"> <h4>Do not edit these settings if you don't know what you're doing. Doing so could crash your blog! </h4> </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+
+		<!-- begin redis configuration panel -->
+			<div class="col-sm-6">
+				<div class="panel panel-default flex-panel" id="panel_redisConfig">
+					<h4 class="h4"> <span class="glyphicon glyphicon-lock"></span> &nbsp; Redis configuration </h4> <hr>
+
+					<div class="input-group">
+						<span class="input-group-addon"> Hostname </span>
+						<input type="text" class="form-control editor_input_field" data-settingID="redis" data-fieldID="host" value="{{data.redis_settings.host}}">
+					</div>
+
+					<div class="input-group">
+						<span class="input-group-addon"> Port </span>
+						<input type="text" class="form-control editor_input_field" data-settingID="redis" data-fieldID="port" value="{{data.redis_settings.port}}">
+					</div>
+
+
+					<div class="input-group">
+						<span class="input-group-addon"> Password </span>
+						<input type="password" class="form-control editor_input_field" data-settingID="redis" data-fieldID="password" value="{{data.redis_settings.password}}">
+					</div>
+					<hr>
+
+					<button type="button" class="btn btn-primary pull-right" id="btn_saveRedisConfig"  data-toggle="modal" data-target="#modal_confirmSetting"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
+				</div>
+			</div>
+		<!-- end redis configuration panel -->
+
+		<!-- begin mysql database configuration panel -->
+		<div class="col-sm-6">
+			<div class="panel panel-default flex-panel" id="panel_databaseConfig">
+				<h4 class="h4"> <span class="glyphicon glyphicon-lock off_black"></span> &nbsp; Database configuration </h4> <hr>
+
+				<div class="input-group">
+					<span class="input-group-addon"> Hostname </span>
+					<input type="text" class="form-control editor_input_field" data-settingID="database" data-fieldID="host" value="{{data.database_settings.host}}">
+				</div>
+
+				<div class="input-group">
+					<span class="input-group-addon"> Port </span>
+					<input type="text" class="form-control editor_input_field"  data-settingID="database" data-fieldID="port" value="{{data.database_settings.port}}">
+				</div>
+
+
+				<div class="input-group">
+					<span class="input-group-addon"> Username </span>
+					<input type="text" class="form-control editor_input_field"  data-settingID="database" data-fieldID="username" value="{{data.database_settings.username}}">
+				</div>
+
+
+				<div class="input-group">
+					<span class="input-group-addon"> Password </span>
+					<input type="password" class="form-control editor_input_field"  data-settingID="database" data-fieldID="password" value="{{data.database_settings.password}}">
+				</div>
+
+
+				<div class="input-group">
+					<span class="input-group-addon"> Database name </span>
+					<input type="text" class="form-control editor_input_field"  data-settingID="database" data-fieldID="default_db" value="{{data.database_settings.default_db}}">
+				</div>
+				<hr>
+
+				<button type="button" class="btn btn-primary pull-right" id="btn_saveDatabaseConfig" data-toggle="modal" data-target="#modal_confirmSetting"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
+			
+				</div>
+			</div>
+		<!-- end mysql database configuration panel -->
+
+		</div>
+</div>
+
+{% endblock body_content %}

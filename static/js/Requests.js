@@ -1,26 +1,12 @@
 var btn_createPost;
 
 $(document).ready(function(){
-	bindElements();
-	bindEvents();
-
-
+	btn_createPost = $("#btn_createPost");
+	btn_createPost.click(createPost);
 
 });
 
 
-function bindElements(){
-	btn_createPost = $("#btn_createPost");
-
-
-}
-
-
-function bindEvents(){
-	btn_createPost.click(createPost);
-
-
-}
 
 
 function savePost(event){
@@ -72,6 +58,41 @@ function deletePost(event){
 	})
 	  .done(function(msg) {
 		location.href = "/view_posts";
+	});
+	 
+}
+
+
+
+
+function saveDatabaseConfig(event){
+
+	$.ajax({
+	  method: "POST",
+	  url: "/saveDatabaseConfig",
+	  dataType: "json",
+	  data: { databaseConfig: JSON.stringify(databaseConfig) },
+	  traditional: true
+	})
+	  .done(function(msg) {
+		location.href = "/settings";
+	});
+	 
+}
+
+
+
+function saveRedisConfig(event){
+
+	$.ajax({
+	  method: "POST",
+	  url: "/saveRedisConfig",
+	  dataType: "json",
+	  data: { redisConfig: JSON.stringify(redisConfig) },
+	  traditional: true
+	})
+	  .done(function(msg) {
+		location.href = "/settings";
 	});
 	 
 }

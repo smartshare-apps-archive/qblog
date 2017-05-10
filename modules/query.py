@@ -5,14 +5,14 @@ from contextlib import closing
 from datetime import datetime
 
 
-POST_FIELDS = ["post_id", "user_id", "post_type", "post_title", "timeline_icon", "timestamp", "post_image", "post_content"]
+POST_FIELDS = ["post_id", "user_id", "post_type", "post_title", "post_author", "timeline_icon", "timestamp", "post_image", "post_content", "post_tags"]
 
 
 def getAllPosts(content):
 	blog_posts = None
 
 	with closing(content.cursor()) as cursor:
-		currentQuery = "SELECT post_id, user_id, post_type, post_title, timeline_icon, timestamp, post_image, post_content FROM posts ORDER BY timestamp DESC;"
+		currentQuery = "SELECT post_id, user_id, post_type, post_title, post_author, timeline_icon, timestamp, post_image, post_content, post_tags FROM posts ORDER BY timestamp DESC;"
 
 		try:
 			cursor.execute(currentQuery)
@@ -45,7 +45,7 @@ def getPost(content, post_id):
 	blog_post = None
 
 	with closing(content.cursor()) as cursor:
-		currentQuery = "SELECT post_id, user_id, post_type, post_title, timeline_icon, timestamp, post_image, post_content FROM posts WHERE post_id=%s;"
+		currentQuery = "SELECT post_id, user_id, post_type, post_title, post_author, timeline_icon, timestamp, post_image, post_content, post_tags FROM posts WHERE post_id=%s;"
 
 		try:
 			cursor.execute(currentQuery, (post_id, ))
@@ -71,10 +71,10 @@ def getPost(content, post_id):
 
 def savePost(content, postData):
 	with closing(content.cursor()) as cursor:
-		currentQuery ="UPDATE posts SET post_type=%s, post_title=%s, timeline_icon=%s, post_image=%s, post_content=%s WHERE post_id=%s;"
+		currentQuery ="UPDATE posts SET post_type=%s, post_title=%s, post_author=%s, timeline_icon=%s, post_image=%s, post_content=%s, post_tags=%s WHERE post_id=%s;"
 		
 		try:
-			cursor.execute(currentQuery, (postData["post_type"], postData["post_title"], postData["timeline_icon"], postData["post_image"], postData["post_content"], postData["post_id"]))
+			cursor.execute(currentQuery, (postData["post_type"], postData["post_title"], postData["post_author"],postData["timeline_icon"], postData["post_image"], postData["post_content"], postData["post_tags"], postData["post_id"]))
 		except Exception as e:
 			print "Couldn't save post: ", e
 			return False

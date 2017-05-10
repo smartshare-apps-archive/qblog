@@ -65,9 +65,34 @@ def edit_post(post_id, user_data=None):
 
 
 
+@cms_views.route('/settings/')
+@cms_views.route('/settings')
+@admin_required(current_app, session, 'login_routes.login_redirect')
+@with_user_data(current_app, session)
+def settings(user_data=None):
+	ctl = current_app.config['ctl']
+	db_wrapper = database_wrapper()
+
+	data = {}
+	data["ts"] = int(time.time())
+
+	data["database_settings"]  = db_wrapper.getDatabaseSettings(db_wrapper.config)
+	data["redis_settings"]  = db_wrapper.getRedisSettings(db_wrapper.config)
+	
+	data["page_specific_js"] = [ "/static/js/Requests.js", "/static/js/Settings.js" ]
+
+	if user_data:
+		data["user_data"] = user_data
+
+	return render_template("/settings.html", data = data)
+
+
+
+
+
 @cms_views.route('/savePost/', methods = ['POST'])
 @cms_views.route('/savePost', methods = ['POST'])
-@admin_required(current_app, session, 'login_routes.login_redirect')
+#@admin_required(current_app, session, 'login_routes.login_redirect')
 @with_user_data(current_app, session)
 def save_post(user_data=None):
 	ctl = current_app.config['ctl']
@@ -123,3 +148,45 @@ def delete_post(user_data=None):
 	return json.dumps(r)
 
 
+
+
+
+
+@cms_views.route('/saveRedisConfig/', methods = ['POST'])
+@cms_views.route('/saveRedisConfig', methods = ['POST'])
+@admin_required(current_app, session, 'login_routes.login_redirect')
+@with_user_data(current_app, session)
+def save_redis_config(user_data=None):
+	ctl = current_app.config['ctl']
+	db_wrapper = database_wrapper()
+
+	redisConfig = request.form['redisConfig']
+	redisConfig = json.loads(redisConfig)
+	
+	r = db_wrapper.saveRedisConfig(db_wrapper.config, redisConfig)
+
+	if r:
+		db_wrapper.config.commit()
+
+	return json.dumps(r)
+
+
+
+
+@cms_views.route('/saveDatabaseConfig/', methods = ['POST'])
+@cms_views.route('/saveDatabaseConfig', methods = ['POST'])
+@admin_required(current_app, session, 'login_routes.login_redirect')
+@with_user_data(current_app, session)
+def save_database_config(user_data=None):
+	ctl = current_app.config['ctl']
+	db_wrapper = database_wrapper()
+
+	databaseConfig = request.form['databaseConfig']
+	databaseConfig = json.loads(databaseConfig)
+	
+	r = db_wrapper.saveDatabaseConfig(db_wrapper.config, databaseConfig)
+
+	if r:
+		db_wrapper.config.commit()
+
+	return json.dumps(r)

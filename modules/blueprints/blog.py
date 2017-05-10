@@ -60,16 +60,20 @@ def view_post(post_id, user_data=None):
 		data["post_data"] = post_data
 
 		post_content = post_data.get("post_content", None)
+		post_tags = post_data.get("post_tags", None)
 		
 		if post_content:
-			post_content = post_content.split(r'<br />')
-
-			for idx, line in enumerate(post_content):
-				post_content[idx] = markdown.markdown(line)
-		
-			data["post_data"]["post_content"] = ''.join(post_content)
+			post_content = post_content.replace('<br />', '\n')
+			data["post_data"]["post_content"] = markdown.markdown(post_content, extensions=['markdown.extensions.fenced_code', 'markdown.extensions.nl2br'])
 		else:
 			data["post_data"]["post_content"] = ""
+
+
+		if post_tags:
+			post_tags = filter(lambda t: t != "", post_tags.split(','))
+			data["post_data"]["post_tags"] = post_tags
+		else:
+			data["post_data"]["post_tags"] = None
 		
 	else:
 		return redirect(url_for('blog_views.index'))

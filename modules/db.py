@@ -71,6 +71,7 @@ class database_wrapper(object):
 
 
 
+
 	@classmethod
 	def getRedisSettings(cls, config_db):
 
@@ -96,6 +97,46 @@ class database_wrapper(object):
 
 		return formattedDatabaseConfig
 
+
+
+	@classmethod
+	def saveRedisConfig(cls, config_db, redisConfig):
+		formatted_redis_config = ""
+
+		for field, value in redisConfig.iteritems():
+			formatted_redis_config += field + "=" + value + "<redis_split>"
+
+
+		with closing(config_db.cursor()) as cursor:
+			currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="RedisConfig";"""
+
+			try:
+				cursor.execute(currentQuery, (formatted_redis_config, ))
+			except Exception as e:
+				print "Error: ", e
+				return False
+		return True
+
+
+
+	@classmethod
+	def saveDatabaseConfig(cls, config_db, databaseConfig):
+		formatted_database_config = ""
+
+		for field, value in databaseConfig.iteritems():
+			formatted_database_config += field + "=" + value + "<database_split>"
+
+
+		with closing(config_db.cursor()) as cursor:
+			currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="DatabaseConfig";"""
+
+			try:
+				cursor.execute(currentQuery, (formatted_database_config, ))
+			except Exception as e:
+				print "Error: ", e
+				return False
+
+		return True
 
 
 
