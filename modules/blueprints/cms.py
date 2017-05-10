@@ -122,7 +122,6 @@ def create_post(user_data=None):
 	post_id = query.createPost(ctl.content, postData)
 
 	if post_id:
-		print "Post id: ", post_id
 		ctl.content.commit()
 
 	return json.dumps(post_id)

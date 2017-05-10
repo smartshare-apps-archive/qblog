@@ -44,7 +44,6 @@ hr {
 
 #timeline-container{
 	font-family: 'Open Sans', sans-serif;
-	padding-left:100px;
 	background-color:white;
 	color:rgba(14,36,57,1.0);
 	min-height:100vh;
@@ -121,7 +120,6 @@ hr {
 
 .post-container{
 	border-left:6px solid rgba(14,36,57,1.0);
-	padding-left:50px;
 	padding-top:20px;
 	min-height:50px;
 	color:rgba(14,36,57,1.0);
@@ -267,3 +265,30 @@ hr {
 	font-size: 20px;
     line-height: 1.45;
 }
+
+
+@media (min-width:320px)  { 
+	#timeline-container{
+		padding-left:40px;
+	}
+
+	#post-container{
+		padding-left:20px;
+	}
+
+ }
+
+@media (min-width:481px)  { 
+	#timeline-container{
+		padding-left:100px;
+	}
+
+	#post-container{
+		padding-left:100px;
+	}
+
+ }
+@media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+@media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+@media (min-width:1281px) { /* hi-res laptops and desktops */ }

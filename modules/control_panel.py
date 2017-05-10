@@ -21,7 +21,6 @@ class BlogCMS(object):
 
 			if post_content:
 				post_content = post_content.replace('<br />', '\n')
-				print post_content
 				data["post_content"] = markdown.markdown(post_content, extensions=['markdown.extensions.fenced_code', 'markdown.extensions.nl2br'])
 
 			else:
