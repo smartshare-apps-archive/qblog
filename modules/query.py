@@ -1,5 +1,8 @@
 import MySQLdb
+import collections
+
 from contextlib import closing
+from datetime import datetime
 
 
 POST_FIELDS = ["post_id", "user_id", "post_type", "post_title", "timeline_icon", "timestamp", "post_image", "post_content"]
@@ -9,7 +12,7 @@ def getAllPosts(content):
 	blog_posts = None
 
 	with closing(content.cursor()) as cursor:
-		currentQuery = "SELECT post_id, user_id, post_type, post_title, timeline_icon, timestamp, post_image, post_content FROM posts;"
+		currentQuery = "SELECT post_id, user_id, post_type, post_title, timeline_icon, timestamp, post_image, post_content FROM posts ORDER BY timestamp DESC;"
 
 		try:
 			cursor.execute(currentQuery)
@@ -21,7 +24,7 @@ def getAllPosts(content):
 
 	if blog_posts:
 
-		formattedBlogPosts = {}
+		formattedBlogPosts = collections.OrderedDict()
 
 		for post in blog_posts:
 			post_id = str(post[0])
@@ -79,14 +82,44 @@ def savePost(content, postData):
 	return True
 
 
-def createPost(content, postData):
+def deletePost(content, postData):
+
 	with closing(content.cursor()) as cursor:
-		currentQuery ="INSERT INTO posts(post_type, post_title, timeline_icon, post_image) VALUES (%s, %s, %s, %s);"
+		currentQuery ="DELETE FROM posts WHERE post_id=%s;"
 		
 		try:
-			cursor.execute(currentQuery, (postData["post_type"], postData["post_title"], postData["timeline_icon"], postData["post_image"]))
+			cursor.execute(currentQuery, (postData["post_id"], ))
 		except Exception as e:
-			print "Couldn't save post: ", e
+			print "Couldn't delete post: ", e
 			return False
 
 	return True
+
+
+
+
+def createPost(content, postData):
+	with closing(content.cursor()) as cursor:
+		currentQuery ="INSERT INTO posts(post_type, post_title, timeline_icon, timestamp) VALUES (%s, %s, %s, %s);"
+		
+		try:
+			cursor.execute(currentQuery, (postData["post_type"], postData["post_title"], postData["timeline_icon"], datetime.now(), ))
+		except Exception as e:
+			print "Couldn't save post: ", e
+			return None
+
+
+		insert_query = "SELECT LAST_INSERT_ID();"
+		
+		try:
+			cursor.execute(insert_query)
+		except Exception as e:
+			print "Error: ", e
+
+		post_id = cursor.fetchone()
+
+		if post_id:
+			return post_id[0]
+		else:
+			return None
+	

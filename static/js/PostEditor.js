@@ -17,6 +17,7 @@ $(document).ready(function(){
 
 function bindElements(){
 	btn_savePost = $("#btn_savePost");
+	btn_deletePost = $("#btn_deletePost");
 
 	post_editor = new SimpleMDE({ 
 		element: $("#post_editor_textarea")[0],
@@ -55,6 +56,7 @@ function bindEvents(){
 	postData["post_content"] = replaceAll(postData["post_content"], '\n', '<br />')
 
 	btn_savePost.click(savePost);
+	btn_deletePost.click(deletePost);
 }
 
 

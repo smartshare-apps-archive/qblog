@@ -1,19 +1,22 @@
 
 
 {% block timeline %}
-<br><br><br>
 {% for post_id, post_data in posts.iteritems() %}
 
 <div class="row post-row" data-postID="{{post_id}}">
 	<div class="post-icon hvr-grow"> <i class="fa {{post_data.timeline_icon}} fa-2x"></i></div>
 	<div class="post-header"> 
-		<span class="post-date"> 4/26/12  <span> <br>
-		<span class="post-title"> <a href="/blog/{{post_id}}"> {{ post_data.post_title }} </a> </span> 
+		<span class="post-date"> {{ post_data.timestamp | safe }}  <span> <br>
+		<span class="post-title"> <a href="/post/{{post_id}}"> {{ post_data.post_title }} </a> </span> 
 	
 	</div>
-	<div class="col-sm-12 post-container">
+	<div class="col-sm-12 post-container hvr-forward">
 		{% if post_data.post_type == "blog" %}
-			<button type="button" class="btn btn-default btn-lg"> View article </button>
+		
+			<a href="/post/{{post_id}}"> 
+				<button type="button" class="btn btn-default btn-lg"> View article </button>
+			 </a>
+
 		{% elif post_data.post_type == "blurb" %}
 			{{ post_data.post_content | safe }}
 			<div class="hidden-blurb" data-postID="{{post_id}}"> {{ post_data.post_content | safe }} </div>

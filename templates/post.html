@@ -45,26 +45,28 @@
 
 {% block body_content %}
 
-<div class="container" id="timeline-container">
-
-	<div class="row">
-		<div class="col-sm-12 text-center">
-			<h2> <i class="fa fa-bath" aria-hidden="true"></i> &nbsp; This way for the gas, ladies and gentlemen... </h2>
-			<h3> Join us for a shower. </h3>
-			<br>
-			<hr>
-		</div>
-
-	</div>
-
+<div class="container" id="post-container">
 	<br>
-	<div class="row">
-		<div class="col-sm-12">
-			{{ timeline | safe }}
+		<div class="row">
+		<div class="col-sm-12 text-left">
+			<h2> {{ data.post_data.post_title | safe }} </h2>
+			<h4> by {{ data.post_data.user_id | safe }}, on {{ data.post_data.timestamp | safe }}</h4>
+
+			<img src="{{ url_for("static", filename="images/fb_logo.png") }}" class="social-icon"> 
+			<img src="{{ url_for("static", filename="images/twitter_icon.png") }}" class="social-icon"> 
 		</div>
 	</div>
-
+	<br><br>
+	<div class="row">
+		<div class="col-sm-12 text-left">
+			{{ data.post_data.post_content | safe }}
+		</div>
+	</div>
 </div>
+
+
+
+
 
 
 {% endblock body_content %}

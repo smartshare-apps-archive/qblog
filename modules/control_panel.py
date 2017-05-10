@@ -16,20 +16,25 @@ class BlogCMS(object):
 		posts = query.getAllPosts(self.content)
 
 		for post_id, data in posts.iteritems():
-			data["post_content"] = posts[post_id]["post_content"].split(r'<br />')
 
-			for idx, line in enumerate(data["post_content"]):
-				data["post_content"][idx] = markdown.markdown(line)
+			post_content = data.get("post_content", None)
 
-			posts[post_id]["post_content"] = ''.join(data["post_content"])
-			print posts[post_id]["post_content"] 
+			if post_content:
+				data["post_content"] = posts[post_id]["post_content"].split(r'<br />')
+
+				for idx, line in enumerate(data["post_content"]):
+					data["post_content"][idx] = markdown.markdown(line)
+
+				posts[post_id]["post_content"] = ''.join(data["post_content"])
+				
+				print posts[post_id]["post_content"] 
+			else:
+				posts[post_id]["post_content"] = ""
 		
 
 		return render_template("/timeline.html", posts = posts)
 
 
 	def get_post_content(self, post_id):
-		print "getting: ", post_id
 		post = query.getPost(self.content, post_id)
-		print "Got this post: ", post
 		return post

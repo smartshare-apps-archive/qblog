@@ -37,5 +37,58 @@
 	{% block body_content %}
 
 	{% endblock body_content %}
+
+	{% block footer %}
+	 <footer class="footer" id="main_footer">
+	      <div class="container">
+	      
+	      </div>
+	  </footer>
+	{% endblock footer %}
+
+	{% block modals %}
+
+	<div class="modal fade" id="modal_createPost">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Create a new article</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+
+	      	<div class="input-group">
+	      		<div class="input-group-addon">
+	      			Post title
+	      		</div>
+	      		<input type="text" class="form-control" id="input_postTitle"> 
+	       	</div>
+	       	<hr>
+	       	<div class="input-group">
+	      		<div class="input-group-addon">
+	      			Post type
+	      		</div>
+	      		<select class="form-control" id="select_postType"> 
+	      			<option value="blog"> Blog </option>
+	      			<option value="blurb"> Blurb </option>
+	      		</select>
+	       	</div>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" id="btn_createPost">Create</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+	{% endblock modals %}
+
+	
 	</body>
+	
 </html>

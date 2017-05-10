@@ -35,6 +35,12 @@ def view_posts(user_data=None):
 	if user_data:
 		data["user_data"] = user_data
 
+	db_wrapper = database_wrapper()
+	posts = query.getAllPosts(db_wrapper.content)
+
+	if posts:
+		data["posts"] = posts
+
 	return render_template("/view_posts.html", data = data)
 
 
@@ -88,9 +94,32 @@ def create_post(user_data=None):
 	postData = request.form['postData']
 	postData = json.loads(postData)
 	
-	r = query.createPost(ctl.content, postData)
+	post_id = query.createPost(ctl.content, postData)
+
+	if post_id:
+		print "Post id: ", post_id
+		ctl.content.commit()
+
+	return json.dumps(post_id)
+
+
+
+
+@cms_views.route('/deletePost/', methods = ['POST'])
+@cms_views.route('/deletePost', methods = ['POST'])
+@admin_required(current_app, session, 'login_routes.login_redirect')
+@with_user_data(current_app, session)
+def delete_post(user_data=None):
+	ctl = current_app.config['ctl']
+
+	postData = request.form['postData']
+	postData = json.loads(postData)
+	
+	r = query.deletePost(ctl.content, postData)
 
 	if r:
 		ctl.content.commit()
 
 	return json.dumps(r)
+
+
