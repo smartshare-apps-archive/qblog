@@ -6,7 +6,6 @@ from modules.db import *
 from modules.decorators import *
 
 
-
 blog_views = Blueprint('blog_views', __name__, template_folder='templates')		#blueprint definition
 
 
