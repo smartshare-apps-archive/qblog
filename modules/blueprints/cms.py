@@ -23,7 +23,7 @@ def setup_session():
 
 @cms_views.route('/view_posts')
 @cms_views.route('/view_posts/')
-#@admin_required(current_app, session, 'login_routes.login_redirect')
+@admin_required(current_app, session, 'login_routes.login_redirect')
 @with_user_data(current_app, session)
 def view_posts(user_data=None):
 	ctl = current_app.config['ctl']

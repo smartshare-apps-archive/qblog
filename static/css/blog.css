@@ -124,13 +124,19 @@ hr {
 	width:100%;
 }
 
-.post-container p{
+.post-container > p{
 	margin-top:10px;
 	margin-bottom:20px;
 	font-size: 20px;
     line-height: 1.45;
     font-weight:100;
 }
+
+.post-container > li{
+	font-size:18px;
+	margin-bottom:20px;
+}
+
 
 .post-container > h1{
 	border-bottom:1px solid rgba(14,36,57,0.1);
@@ -156,6 +162,9 @@ hr {
 	display:none;
 }
 
+.post-description{
+	font-size:18px;
+}
 
 
 /* login form styles */
@@ -238,6 +247,14 @@ hr {
 	font-family: 'Open Sans', sans-serif;
 }
 
+
+
+.blog-post  li{
+	font-size:18px;
+	margin-bottom:20px;
+}
+
+
 .blog-post > h1{
 	border-bottom:1px solid rgba(14,36,57,0.1);
 	padding-bottom:5px;
@@ -261,13 +278,13 @@ hr {
 
 }
 
-.blog-post > p {
+.blog-post > p{
 	margin-top:10px;
 	margin-bottom:20px;
-	font-size: 20px;
+	font-size: 18px;
     line-height: 1.45;
+    font-weight:100;
 }
-
 
 /* media queries */
 

@@ -25,8 +25,10 @@
 
 			<div class="input-group">
 			  <span class="input-group-addon" id="title-addon">Author</span>
-			  <input type="text" class="form-control post-data-input" placeholder="Author" aria-describedby="title-addon" value="{{data.post_data.post_author}}" data-fieldID="post_author">
+			  <input type="text" class="form-control post-data-input" placeholder="Author" aria-describedby="author-addon" value="{{data.post_data.post_author}}" data-fieldID="post_author">
 			</div>
+
+			
 			
 		</div>
 		
@@ -59,11 +61,20 @@
 			</span>
 			-->
 
-			<button type="button" class="btn btn-primary" id="btn_savePost"> Save changes </button> 
-			&nbsp;&nbsp;&nbsp;
+			<button type="button" class="btn btn-primary" id="btn_savePost"> Save changes </button> <br>
+			
 			<button type="button" class="btn btn-danger" id="btn_deletePost"> Delete this post </button>
 
 		</div>
+
+		<div class="col-sm-12">
+			
+			<div class="input-group">
+			  <span class="input-group-addon" id="desciption-addon">Description</span>
+			  <input type="text" class="form-control post-data-input" placeholder="Author" aria-describedby="description-addon" value="{{data.post_data.post_description}}" data-fieldID="post_description">
+			</div>
+		</div>
+
 
 	</div>
 	

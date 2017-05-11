@@ -88,6 +88,14 @@ body{
     flex-direction: column;
 }
 
+#btn_savePost{
+    width:100%;
+    margin-bottom:10px;
+}
+
+#btn_deletePost{
+    width:100%;
+}
 
 /* bulk post actions */
 
