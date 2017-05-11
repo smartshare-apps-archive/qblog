@@ -23,7 +23,7 @@ def setup_session():
 
 @cms_views.route('/view_posts')
 @cms_views.route('/view_posts/')
-@admin_required(current_app, session, 'login_routes.login_redirect')
+#@admin_required(current_app, session, 'login_routes.login_redirect')
 @with_user_data(current_app, session)
 def view_posts(user_data=None):
 	ctl = current_app.config['ctl']
@@ -31,6 +31,7 @@ def view_posts(user_data=None):
 	data["ts"] = int(time.time())
 	
 	data["page_specific_js"] = ["/static/js/Requests.js", "/static/js/PostManager.js" ]
+	data["post_action_bar"] = render_template("/post_actions.html")
 
 	if user_data:
 		data["user_data"] = user_data
@@ -92,7 +93,7 @@ def settings(user_data=None):
 
 @cms_views.route('/savePost/', methods = ['POST'])
 @cms_views.route('/savePost', methods = ['POST'])
-#@admin_required(current_app, session, 'login_routes.login_redirect')
+@admin_required(current_app, session, 'login_routes.login_redirect')
 @with_user_data(current_app, session)
 def save_post(user_data=None):
 	ctl = current_app.config['ctl']
@@ -146,6 +147,23 @@ def delete_post(user_data=None):
 
 	return json.dumps(r)
 
+
+@cms_views.route('/bulkDeletePosts/', methods = ['POST'])
+@cms_views.route('/bulkDeletePosts', methods = ['POST'])
+@admin_required(current_app, session, 'login_routes.login_redirect')
+@with_user_data(current_app, session)
+def bulk_delete_posts(user_data=None):
+	ctl = current_app.config['ctl']
+
+	selectedPostIDs = request.form['selectedPostIDs']
+	selectedPostIDs = json.loads(selectedPostIDs)
+	
+	r = query.bulkDeletePosts(ctl.content, selectedPostIDs)
+
+	if r:
+		ctl.content.commit()
+
+	return json.dumps(r)
 
 
 

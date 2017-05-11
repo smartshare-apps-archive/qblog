@@ -96,3 +96,19 @@ function saveRedisConfig(event){
 	});
 	 
 }
+
+
+
+function bulkDeletePosts(event){
+	$.ajax({
+	  method: "POST",
+	  url: "/bulkDeletePosts",
+	  dataType: "json",
+	  data: { selectedPostIDs: JSON.stringify(selectedPostIDs) },
+	  traditional: true
+	})
+	  .done(function(msg) {
+		location.href = "/view_posts";
+	});
+	
+}

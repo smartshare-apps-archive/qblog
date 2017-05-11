@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block meta_tags %}
+
+
+{% endblock meta_tags %}
+
+
 
 {% block body_content %}
 
@@ -7,6 +13,7 @@
 	<br>
 		<div class="row">
 		<div class="col-sm-12 text-left">
+			<a href="/"><button type="button" class="btn btn-default"> <span class="glyphicon glyphicon-chevron-left"></span> &nbsp; Back to timeline </button></a>
 			<h2> {{ data.post_data.post_title | safe }} </h2>
 			<h4> by {{ data.post_data.post_author | safe }}, on {{ data.post_data.timestamp | safe }}</h4>
 
@@ -29,6 +36,7 @@
 	<br><br>
 	<div class="row">
 		<div class="col-sm-12 text-left blog-post">
+
 			{{ data.post_data.post_content | safe }}
 		</div>
 	</div>

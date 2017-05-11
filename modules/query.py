@@ -69,6 +69,7 @@ def getPost(content, post_id):
 
 
 
+
 def savePost(content, postData):
 	with closing(content.cursor()) as cursor:
 		currentQuery ="UPDATE posts SET post_type=%s, post_title=%s, post_author=%s, timeline_icon=%s, post_image=%s, post_content=%s, post_tags=%s WHERE post_id=%s;"
@@ -95,6 +96,20 @@ def deletePost(content, postData):
 
 	return True
 
+
+def bulkDeletePosts(content, selectedPostIDs):
+	placeholders = ','.join(['%s' for _ in selectedPostIDs])
+
+	with closing(content.cursor()) as cursor:
+		currentQuery ="DELETE FROM posts WHERE post_id IN(%s);" % placeholders
+
+		try:
+			cursor.execute(currentQuery, selectedPostIDs)
+		except Exception as e:
+			print "Couldn't delete posts: ", e
+			return False
+
+	return True
 
 
 

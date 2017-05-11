@@ -88,3 +88,43 @@ body{
     flex-direction: column;
 }
 
+
+/* bulk post actions */
+
+.action-bar {
+    font-family: 'Open Sans', sans-serif;
+    z-index:2000;
+    background-color:white;
+    position:relative;
+    top:0px;
+    height:50px;
+    display:none;
+    padding-top:5px;
+    width:100%;
+}
+
+.action-bar button{
+    height:36px;
+}
+
+
+.action-bar label{
+    padding-top:7px;
+    height:36px;
+
+}
+
+#bulk_action_dropdown{
+    display:inline-block;
+}
+
+
+#btn_toggleDropdown{
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+    border-left:0px;
+}
+
+
