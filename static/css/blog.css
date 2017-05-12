@@ -297,6 +297,10 @@ hr {
 		padding-left:20px;
 	}
 
+	#timeline_header{
+		margin-left:-40px;
+	}
+
  }
 
 @media (min-width:481px)  { 
@@ -307,6 +311,11 @@ hr {
 	#post-container{
 		padding-left:50px;
 	}
+
+	#timeline_header{
+		margin-left:-50px;
+	}
+
 
  }
 
