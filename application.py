@@ -8,6 +8,8 @@ from flask import Flask, render_template, url_for, abort, request, Response, mak
 
 from modules.control_panel import BlogCMS
 
+from modules.db import *
+from modules import query
 
 from modules.blueprints import cms
 from modules.blueprints import blog
@@ -52,6 +54,22 @@ def debug_dirUpdate():
 	return extra_files
 
 
+
+@application.route('/sitemap.xml')
+def sitemap():
+	"""Generate sitemap.xml """
+	pages = ["/index", "/", "/login", "/logout"]
+	# All pages registed with flask apps
+	db_wrapper = database_wrapper()
+	post_pages = ["/post/" + post_id for post_id, post_data in query.getAllPosts(db_wrapper.content).iteritems()]
+	post_pages += ["/post/" + post_data["post_handle"] for post_id, post_data in query.getAllPosts(db_wrapper.content).iteritems() if post_data["post_handle"]]
+	pages += post_pages
+
+	sitemap_xml = render_template('sitemap_template.xml', pages=pages)
+	response = make_response(sitemap_xml)
+	response.headers["Content-Type"] = "application/xml"
+
+	return response
 
 
 

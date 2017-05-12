@@ -38,3 +38,7 @@ class BlogCMS(object):
 	def get_post_content(self, content_db, post_id):
 		post = query.getPost(content_db, post_id)
 		return post
+
+	def get_post_content_by_handle(self, content_db, post_handle):
+		post = query.getPostByHandle(content_db, post_handle)
+		return post
