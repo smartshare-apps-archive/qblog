@@ -54,8 +54,11 @@ def edit_post(post_id, user_data=None):
 	ctl = current_app.config['ctl']
 	data = {}
 	data["ts"] = int(time.time())
-	data["post_data"] = ctl.get_post_content(post_id)
-	
+
+	db_wrapper = database_wrapper()
+
+	data["post_data"] = ctl.get_post_content(db_wrapper.content, post_id)
+
 	data["page_specific_js"] = [ "/static/js/Requests.js", "/static/js/PostEditor.js" ]
 
 	if user_data:
@@ -100,11 +103,13 @@ def save_post(user_data=None):
 
 	postData = request.form['postData']
 	postData = json.loads(postData)
+
+	db_wrapper = database_wrapper()
 	
-	r = query.savePost(ctl.content, postData)
+	r = query.savePost(db_wrapper.content, postData)
 
 	if r:
-		ctl.content.commit()
+		db_wrapper.content.commit()
 
 	return json.dumps(r)
 
@@ -119,11 +124,14 @@ def create_post(user_data=None):
 
 	postData = request.form['postData']
 	postData = json.loads(postData)
+
+
+	db_wrapper = database_wrapper()	
 	
-	post_id = query.createPost(ctl.content, postData)
+	post_id = query.createPost(db_wrapper.content, postData)
 
 	if post_id:
-		ctl.content.commit()
+		db_wrapper.content.commit()
 
 	return json.dumps(post_id)
 
@@ -140,10 +148,12 @@ def delete_post(user_data=None):
 	postData = request.form['postData']
 	postData = json.loads(postData)
 	
-	r = query.deletePost(ctl.content, postData)
+	db_wrapper = database_wrapper()
+	
+	r = query.deletePost(db_wrapper.content, postData)
 
 	if r:
-		ctl.content.commit()
+		db_wrapper.content.commit()
 
 	return json.dumps(r)
 
@@ -157,11 +167,13 @@ def bulk_delete_posts(user_data=None):
 
 	selectedPostIDs = request.form['selectedPostIDs']
 	selectedPostIDs = json.loads(selectedPostIDs)
+
+	db_wrapper = database_wrapper()
 	
-	r = query.bulkDeletePosts(ctl.content, selectedPostIDs)
+	r = query.bulkDeletePosts(db_wrapper.content, selectedPostIDs)
 
 	if r:
-		ctl.content.commit()
+		db_wrapper.content.commit()
 
 	return json.dumps(r)
 
@@ -179,7 +191,7 @@ def save_redis_config(user_data=None):
 
 	redisConfig = request.form['redisConfig']
 	redisConfig = json.loads(redisConfig)
-	
+
 	r = db_wrapper.saveRedisConfig(db_wrapper.config, redisConfig)
 
 	if r:

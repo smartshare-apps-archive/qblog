@@ -26,7 +26,10 @@ def setup_session():
 @with_user_data(current_app, session)
 def index(user_data=None):
 	ctl = current_app.config['ctl']
-	timeline = ctl.timeline()
+
+	db_wrapper = database_wrapper()
+	
+	timeline = ctl.timeline(db_wrapper.content)
 	
 	data = {}
 	data["ts"] = int(time.time())
@@ -53,7 +56,9 @@ def view_post(post_id, user_data=None):
 	if user_data:
 		data["user_data"] = user_data
 
-	post_data = ctl.get_post_content(post_id)
+	db_wrapper = database_wrapper()
+
+	post_data = ctl.get_post_content(db_wrapper.content, post_id)
 
 	if post_data:
 		data["post_data"] = post_data
