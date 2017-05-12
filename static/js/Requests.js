@@ -30,6 +30,11 @@ function savePost(event){
 function createPost(event){
 	var postData = {};
 	postData["post_title"] = $("#input_postTitle").val();
+	
+	if(postData["post_title"] == ""){
+		return;
+	}
+
 	postData["post_type"] = $("#select_postType").val();
 	postData["timeline_icon"] = "fa-file-text-o";
 

@@ -15,16 +15,19 @@ class BlogCMS(object):
 	def timeline(self):
 		posts = query.getAllPosts(self.content)
 
-		for post_id, data in posts.iteritems():
+		if posts:
+			for post_id, data in posts.iteritems():
 
-			post_content = data.get("post_content", None)
+				post_content = data.get("post_content", None)
 
-			if post_content:
-				post_content = post_content.replace('<br />', '\n')
-				data["post_content"] = markdown.markdown(post_content, extensions=['markdown.extensions.fenced_code', 'markdown.extensions.nl2br'])
+				if post_content:
+					post_content = post_content.replace('<br />', '\n')
+					data["post_content"] = markdown.markdown(post_content, extensions=['markdown.extensions.fenced_code', 'markdown.extensions.nl2br'])
 
-			else:
-				posts[post_id]["post_content"] = ""
+				else:
+					posts[post_id]["post_content"] = ""
+		else:
+			posts = None
 		
 
 		return render_template("/timeline.html", posts = posts)

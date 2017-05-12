@@ -18,7 +18,7 @@
 	<div class="row" id="post_manager_row">
 		<div class="col-sm-12">
 	<!-- begin post management table -->
-
+	{% if data.posts %}
 		  <table class="table table-bordered table-hover" id="table_manage_posts">
 		 	<thead>
 		 	<th class="th_select">  </th>
@@ -29,7 +29,7 @@
 		 	</thead>
 
 		 	<tbody>
-		 	{% if data.posts %}
+		 	
 
 		 		{% for post_id, post_data in data.posts.iteritems() %}
 		 		<tr>
@@ -46,16 +46,18 @@
 		 			
 		 		{% endfor %}
 
-		 	{% else %}
-
-		 	<div class="text-center"> <h2> You haven't posted anything yet. </h2> </div>
-
-		 	{% endif %}
-
 		 	</tbody>
 		 </table>
+		 <!-- end post management table -->
+		 {% else %}
+		 	<div class="text-center"> <h2> You haven't posted anything yet. </h2> 
+		 	<h3>
+		 	<a href="#" data-toggle="modal" data-target="#modal_createPost"> Create an article </a>
+		 	</h3>
+		 	</div>
 
-			<!-- end post management table -->
+		 {% endif %}
+			
 		</div>
 	</div>
 
