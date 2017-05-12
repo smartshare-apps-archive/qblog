@@ -46,6 +46,16 @@ function bindEvents(){
 		$(this).change(function(){
 			var fieldID = $(this).attr('data-fieldID');
 			var fieldValue = $(this).val();
+
+			if(fieldID == "post_published"){
+				if($(this).prop("checked") == true){
+					fieldValue = 1;
+				}
+				else{
+					fieldValue = 0;
+				}
+			}
+			
 			postData[fieldID] = fieldValue;
 			console.log(postData);
 		});

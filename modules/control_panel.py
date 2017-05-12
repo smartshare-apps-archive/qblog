@@ -14,7 +14,10 @@ class BlogCMS(object):
 	def timeline(self, content_db):
 		posts = query.getAllPosts(content_db)
 
+
 		if posts:
+			posts = {post_id: data for post_id, data in posts.iteritems() if data["post_published"] == 1}
+
 			for post_id, data in posts.iteritems():
 
 				post_content = data.get("post_content", None)

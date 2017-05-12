@@ -76,6 +76,12 @@ body{
 .select_container{
 }
 
+.btn-noclick{
+    background-color: white;
+    color: #333333;
+    border:1px solid rgba(53,53,53,0.3);
+}
+
 .select_container label{
     height:36px;
 }

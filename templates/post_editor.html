@@ -52,6 +52,16 @@
 			  <span class="input-group-addon" id="title-addon">Icon</span>
 			  <input type="text" class="form-control post-data-input" placeholder="Post icon" aria-describedby="icon-addon" value="{{data.post_data.timeline_icon}}" data-fieldID="timeline_icon">
 			</div>
+
+			<div class="btn-group select_container" role="group">
+		 		<label class="btn btn-default">
+					<input type='checkbox' class="post-data-input" data-fieldID="post_published" {% if data.post_data.post_published == 1 %}checked{% endif %}> 
+		        </label>
+		 
+				<label class="btn btn-default btn-noclick">
+					Publish post?
+				 </label>
+			</div>
 		</div>
 
 		<div class="col-sm-3">
