@@ -10,7 +10,6 @@
 	{% for script in data.	page_specific_js %}
 		<script type="text/javascript" src="{{script}}?ts={{data.ts}}"></script>
 	{% endfor %}
-		
 
 <div class="container">
 
@@ -56,7 +55,7 @@
 			  <span class="input-group-addon" id="title-addon">Icon</span>
 			  <input type="text" class="form-control post-data-input" placeholder="Post icon" aria-describedby="icon-addon" value="{{data.post_data.timeline_icon}}" data-fieldID="timeline_icon">
 			</div>
-
+			<div class="input-group">
 			<div class="btn-group select_container" role="group">
 		 		<label class="btn btn-default">
 					<input type='checkbox' class="post-data-input" data-fieldID="post_published" {% if data.post_data.post_published == 1 %}checked{% endif %}> 
@@ -66,6 +65,7 @@
 					Publish post?
 				 </label>
 			</div>
+		</div>
 		</div>
 
 		<div class="col-sm-3">
@@ -88,7 +88,29 @@
 			  <input type="text" class="form-control post-data-input" placeholder="Author" aria-describedby="description-addon" value="{{data.post_data.post_description}}" data-fieldID="post_description">
 			</div>
 		</div>
+			<div class="col-sm-4">
+				<div class="input-group">
+				  <span class="input-group-addon" id="expected-addon">
+				  Expected result</span>
+				  <input type="text" class="form-control post-data-input" placeholder="expected result" aria-describedby="description-addon" value="{{data.post_data.post_description}}" data-fieldID="post_description">
+				</div>
 
+				<div class="input-group">
+					  <span class="input-group-addon" id="expected-addon">
+					  Choose metric</span>
+		  			<select class="selectMetric" name="state">
+		  				{% for item in metadata %}	     
+							<option value="AL">{{item['id']}}</option>
+						{% endfor %} 
+					</select>
+				</div>
+
+				<div class="input-group" >
+					  <section id="auth-button"></section>
+					  <section id="view-selector"></section>
+					  <section id="timeline"></section>
+				 </div>
+		</div>
 
 	</div>
 	
@@ -109,5 +131,12 @@
 	</div>
 </div>
 
-
+	<script type="text/javascript">
+		$('.selectMetric').on('change', function (e) {
+		    var optionSelected = $("option:selected", this);
+		    metric = optionSelected.text();
+		    console.log(metric)
+		    compare(metric)
+	});
+	</script>
 {% endblock body_content %}
