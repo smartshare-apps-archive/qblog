@@ -145,7 +145,7 @@ class database_wrapper(object):
         userData = None
         
         with closing(self.content.cursor()) as cursor:
-            currentQuery = "SELECT user_id, username, access_level  FROM users;WHERE username=%s AND password=%s;"
+            currentQuery = "SELECT user_id, username, access_level  FROM users WHERE username=%s AND password=%s;"
 
             try:
                 cursor.execute(currentQuery, (login_info["username"], login_info["password"],))

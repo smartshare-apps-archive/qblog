@@ -29,7 +29,8 @@ application.secret_key = os.urandom(24)
 application.config['ctl'] = BlogCMS()       #this instance of ControlPanel can be accessed through the application context so blueprints can use it
 application.config['session_cookie_id'] = "sess_id"
 application.config['SessionManager'] = session_manager.SessionManager()
-
+application.config['GOOGLE_API_KEY'] = 'AIzaSyDq21enWEblUp7Tvo7W4BNSr18p9BSRPnA'
+application.config['GOOGLE_API_JSON'] = 'client_secrets.json'
 assert application.config['SessionManager'].r is not None, "Can't connect to redis server."
 
 

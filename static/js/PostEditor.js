@@ -153,3 +153,34 @@ function compare(metric){
 }
 
 
+$(function() {
+    $('#calculate').bind('click', function() {
+        var optionSelected = $( ".selectMetric option:selected" ).text();
+        var expected = $( "#expected" ).val();
+        var start_date = $( "#start_date" ).val();
+        var end_date = $( "#end_date" ).val();
+      $.getJSON($SCRIPT_ROOT + "/_get_metric", {
+        metric: optionSelected,
+        expected: expected,
+        start_date: start_date,
+        end_date: end_date
+      }, function(data) {
+        var summary = 'You forgot to fill all fields';
+        if (data.error == true) {
+            summary = data.result
+        }
+        else if (Number(data.expected) > Number(data.result)) {
+            summary = 'Expected value greater than Actual';
+        }
+        else if (Number(data.expected) < Number(data.result)) {
+            summary = 'Expected value less than Actual';
+        }
+        else if (Number(data.expected) == Number(data.result)) {
+            summary = 'Expected value is equal to the Actual';
+        }
+        $("#metricResult").text(summary);
+      });
+      return false;
+    });
+  });
+
