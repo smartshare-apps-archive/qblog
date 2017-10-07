@@ -1,6 +1,6 @@
 import json, time
 
-from flask import Blueprint, render_template, abort, current_app, session, request, Markup
+from flask import Blueprint, render_template, abort, current_app, session, request, Markup, jsonify
 
 from modules.db import *
 from modules.decorators import *
@@ -26,7 +26,7 @@ def get_service(api_name, api_version, scopes, key_file_location):
       A service that is connected to the specified API.
     """
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        app.config['GOOGLE_API_JSON'], scopes=scopes)
+        current_app.config['GOOGLE_API_JSON'], scopes=scopes)
     # Build the service object.
     service = build(api_name, api_version, credentials=credentials)
 
@@ -65,7 +65,7 @@ def get_results(service, profile_id, metric, start_date, end_date):
 
 def get_total_metric(metric, start_date, end_date):
     # Use the Analytics Service to get total metric info
-    key_file_location = app.config['GOOGLE_API_JSON']
+    key_file_location = current_app.config['GOOGLE_API_JSON']
     scopes = ['https://www.googleapis.com/auth/analytics.readonly']
 
     # Authenticate and construct service.
@@ -80,7 +80,7 @@ def get_total_metric(metric, start_date, end_date):
 
 def get_metadata_rows():
     # Get all available metrics for current Analitics Account
-    service = build('analytics', 'v3', developerKey=app.config['GOOGLE_API_KEY'])
+    service = build('analytics', 'v3', developerKey=current_app.config['GOOGLE_API_KEY'])
     try:
         results = service.metadata().columns().list(reportType='ga').execute()
     except TypeError, error:
@@ -287,7 +287,7 @@ def save_database_config(user_data=None):
 
     databaseConfig = request.form['databaseConfig']
     databaseConfig = json.loads(databaseConfig)
-    
+
     r = db_wrapper.saveDatabaseConfig(db_wrapper.config, databaseConfig)
 
     if r:
