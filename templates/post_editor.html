@@ -91,6 +91,7 @@
 			</div>
 		</div>
 		<hr>
+
 			<div class="col-sm-4">
 				<div class="input-group">
 				  <span class="input-group-addon">
@@ -104,6 +105,15 @@
 		  			<select class="selectMetric form-control" name="state" required>
 		  				{% for item in metadata %}	     
 							<option value="AL">{{item['id']}}</option>
+						{% endfor %} 
+					</select>
+				</div>
+								<div class="input-group">
+					<span class="input-group-addon" id="expected-addon">
+					  Choose account</span>
+		  			<select class="selectAccount form-control" name="state" required>
+		  				{% for item in accounts %}	     
+							<option value="AL">{{item}}</option>
 						{% endfor %} 
 					</select>
 				</div>
