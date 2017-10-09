@@ -1,4 +1,5 @@
 import json, time
+from ast import literal_eval
 
 from flask import Blueprint, render_template, abort, current_app, session, request, Markup, jsonify
 
@@ -33,22 +34,19 @@ def get_service(api_name, api_version, scopes, key_file_location):
     return service
 
 
-def get_first_profile_id(service):
-    # Use the Analytics service object to get the first profile id.
-    # Get a list of all Google Analytics accounts for this user
-    accounts = service.management().accounts().list().execute()
-
-    if accounts.get('items'):
-        account = accounts.get('items')[0].get('id')
-        properties = service.management().webproperties().list(
+def get_profile_id(account):
+    # Use the Analytics service object to get the profile id.
+    service = get_analytics_service()
+    properties = service.management().webproperties().list(
             accountId=account).execute()
-        if properties.get('items'):
-            property = properties.get('items')[0].get('id')
-            profiles = service.management().profiles().list(
-              accountId=account,
-              webPropertyId=property).execute()
-            if profiles.get('items'):
-                return profiles.get('items')[0].get('id')
+    if properties.get('items'):
+        property = properties.get('items')[0].get('id')
+        profiles = service.management().profiles().list(
+            accountId=account,
+            webPropertyId=property).execute()
+
+        if profiles.get('items'):
+            return profiles.get('items')[0].get('id')
 
     return None
 
@@ -62,21 +60,34 @@ def get_results(service, profile_id, metric, start_date, end_date):
           metrics=metric).execute()
 
 
+def get_analytics_service():
+    key_file_location = current_app.config['GOOGLE_API_JSON']
+    scopes = ['https://www.googleapis.com/auth/analytics.readonly']
+    service = get_service('analytics', 'v3', scopes, key_file_location)
+    return service
 
-def get_total_metric(metric, start_date, end_date):
+
+def get_accounts():
+    service = get_analytics_service()
+    accounts = service.management().accounts().list().execute()
+    return [(x['name'].encode('utf-8'), int(x['id'])) for x in accounts.get('items')]
+
+
+def get_total_metric(account, metric, start_date, end_date):
     # Use the Analytics Service to get total metric info
     key_file_location = current_app.config['GOOGLE_API_JSON']
     scopes = ['https://www.googleapis.com/auth/analytics.readonly']
 
     # Authenticate and construct service.
     service = get_service('analytics', 'v3', scopes, key_file_location)
-    profile = get_first_profile_id(service)
+    profile = get_profile_id(account)
     results = get_results(service, profile, metric, start_date, end_date)
     try:
         summary = results.get('rows')[0][0]
     except TypeError:
         summary = 0
     return summary
+
 
 def get_metadata_rows():
     # Get all available metrics for current Analitics Account
@@ -137,9 +148,9 @@ def edit_post(post_id, user_data=None):
     if user_data:
         data["user_data"] = user_data
     metadata = get_metadata_rows()
+    accounts = get_accounts()
 
-
-    return render_template("/post_editor.html", data = data, metadata=metadata)
+    return render_template("/post_editor.html", data = data, metadata=metadata, accounts=accounts)
 
 
 
@@ -317,6 +328,9 @@ def _get_metric():
             'result': Text of error,
         }
     """
+    raw_account = request.args.get('account')
+    account = int(literal_eval(raw_account)[1])
+    print(account)
     metric = request.args.get('metric')
     expected = request.args.get('expected')
     start_date = request.args.get('start_date')
@@ -326,7 +340,7 @@ def _get_metric():
     if any(not v for v in list(request.args.values())):
        return jsonify({'error': True, 'result': "You need to fill all fields"})
     try:
-        result = get_total_metric(metric, start_date, end_date)
+        result = get_total_metric(account, metric, start_date, end_date)
     except (HttpError, TypeError) as e:
         print(e)
         error = "Unknown metric: {}".format(metric)
