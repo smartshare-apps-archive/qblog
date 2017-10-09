@@ -10,9 +10,8 @@
 	{% for script in data.	page_specific_js %}
 		<script type="text/javascript" src="{{script}}?ts={{data.ts}}"></script>
 	{% endfor %}
-	<script type=text/javascript>
-  		$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-	</script>
+		
+
 <div class="container">
 
 	
@@ -57,7 +56,7 @@
 			  <span class="input-group-addon" id="title-addon">Icon</span>
 			  <input type="text" class="form-control post-data-input" placeholder="Post icon" aria-describedby="icon-addon" value="{{data.post_data.timeline_icon}}" data-fieldID="timeline_icon">
 			</div>
-			<div class="input-group">
+
 			<div class="btn-group select_container" role="group">
 		 		<label class="btn btn-default">
 					<input type='checkbox' class="post-data-input" data-fieldID="post_published" {% if data.post_data.post_published == 1 %}checked{% endif %}> 
@@ -67,7 +66,6 @@
 					Publish post?
 				 </label>
 			</div>
-		</div>
 		</div>
 
 		<div class="col-sm-3">
@@ -90,49 +88,7 @@
 			  <input type="text" class="form-control post-data-input" placeholder="Author" aria-describedby="description-addon" value="{{data.post_data.post_description}}" data-fieldID="post_description">
 			</div>
 		</div>
-		<hr>
-			<div class="col-sm-4">
-				<div class="input-group">
-				  <span class="input-group-addon">
-				  Expected value</span>
-				  <input type="text" class="form-control post-data-input" id="expected" required>
-				</div>
 
-				<div class="input-group">
-					  <span class="input-group-addon" id="expected-addon">
-					  Choose metric</span>
-		  			<select class="selectMetric form-control" name="state" required>
-		  				{% for item in metadata %}	     
-							<option value="AL">{{item['id']}}</option>
-						{% endfor %} 
-					</select>
-				</div>
-			</div>
-
-			<div class="col-sm-3">
-				<div class="input-group">
-					<span class="input-group-addon">
-					  Start date</span>
-					  <label class="btn btn-default btn-noclick">
-					  	<input type="date" name="start_date" id="start_date" required>
-					  </label>
-
-				</div>
-				<div class="input-group">
-					<span class="input-group-addon">
-					  End date</span>
-					  <label class="btn btn-default btn-noclick">
-						 <input type="date" name="end_date" id="end_date" required>
-					  </label>
-				</div>
-			</div>
-
-			<div class="col-sm-5">
-				<button id=calculate type="button" class="btn btn-primary">Calculate result</button>
-				<label class="btn btn-default btn-noclick metricResultLabel" >
-					<span id=metricResult>Fill fields and see results here</span>
-				</label>
-			</div>
 
 	</div>
 	
@@ -152,5 +108,6 @@
 		{% endfor %}
 	</div>
 </div>
+
 
 {% endblock body_content %}
