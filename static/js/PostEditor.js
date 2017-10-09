@@ -159,10 +159,8 @@ $(function() {
         var expected = $( "#expected" ).val();
         var start_date = $( "#start_date" ).val();
         var end_date = $( "#end_date" ).val();
-        var optionSelected2 = $( ".selectAccount option:selected" ).text();
       $.getJSON($SCRIPT_ROOT + "/_get_metric", {
         metric: optionSelected,
-        account: optionSelected2,
         expected: expected,
         start_date: start_date,
         end_date: end_date
