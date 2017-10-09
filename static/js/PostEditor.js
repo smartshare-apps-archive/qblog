@@ -106,7 +106,7 @@ function compare(metric){
 
 	  // Step 3: Authorize the user.
 
-	  var CLIENT_ID = '473278652027-a6rkomnav87qnki5m66l2acumof3e07m.apps.googleusercontent.com';
+	  var CLIENT_ID = '450799825815-t80f23bptjkvsudh72tmn6b4siqa8k1v.apps.googleusercontent.com';
 
 	    gapi.analytics.auth.authorize({
     container: 'auth-button',
