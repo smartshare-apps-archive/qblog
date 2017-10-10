@@ -1,6 +1,8 @@
 from __future__ import print_function 
 import os, sys, re, requests, time, json
 
+from werkzeug.contrib.fixers import ProxyFix
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -72,7 +74,7 @@ def sitemap():
 
     return response
 
-
+application.wsgi_app = ProxyFix(application.wsgi_app)
 if __name__ == "__main__":
     extra_files = debug_dirUpdate()
 

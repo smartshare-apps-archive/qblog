@@ -45,3 +45,4 @@ tornado==4.4.3
 uritemplate==3.0.0
 websocket-client==0.40.0
 Werkzeug==0.12.1
+gunicorn==19.7.1
